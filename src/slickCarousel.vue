@@ -22,11 +22,17 @@ export default {
   },
 
   mounted: function() {
+    console.log('Vue-Slick: forked version from https://github.com/oussla/vue-slick');
     this.create();
   },
 
-  destroyed: function() {
+  // https://github.com/staskjs/vue-slick/issues/56
+  destroyed() {
+    const manualDestroy = () => {
     $(this.$el).slick('unslick');
+      this.$el.removeEventListener(manualDestroy);
+    };
+    this.$el.addEventListener('transitionend', manualDestroy);
   },
 
   methods: {
